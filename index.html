@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gallery Demo</title>
+    <meta name="description" content="Gallery Demo">
+    <script src="./js/aframe-v0.3.2.min.js"></script>
+    <script src="./js/aframe-animation-component@3.0.1.js"></script>
+    <script src="./js/aframe-event-set-component@3.0.1.js"></script>
+    <script src="./js/aframe-layout-component@3.0.1.js"></script>
+    <script src="./js/aframe-template-component@3.0.1.js"></script>
+    <script src="components/set-image.js"></script>
+    <script src="components/update-raycaster.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="balloon-thumb" crossorigin="anonymous" src="./img/thumb-balloon.jpg">
+        <img id="beach-thumb" crossorigin="anonymous" src="./img/thumb-beach.jpg">
+        <img id="clouds-thumb" crossorigin="anonymous" src="./img/thumb-clouds.jpg">
+        <img id="earth-thumb" crossorigin="anonymous" src="./img/thumb-earth.jpg">
+        <img id="racing-thumb" crossorigin="anonymous" src="./img/thumb-racing.jpg">
+        <img id="seaside-thumb" crossorigin="anonymous" src="./img/thumb-seaside.jpg">
+        <img id="sechelt-thumb" crossorigin="anonymous" src="./img/thumb-sechelt-1.jpg">
+        <img id="venice-thumb" crossorigin="anonymous" src="./img/thumb-venice.jpg">
+        <img id="balloon" crossorigin="anonymous" src="./img/balloon.jpg">
+        <img id="beach" crossorigin="anonymous" src="./img/beach.jpg">
+        <img id="clouds" crossorigin="anonymous" src="./img/pano_4k.jpg">
+        <img id="earth" crossorigin="anonymous" src="./img/earth.jpg">
+        <img id="racing" crossorigin="anonymous" src="./img/racing.jpg">
+        <img id="seaside" crossorigin="anonymous" src="./img/beach.jpg">
+        <img id="sechelt" crossorigin="anonymous" src="./img/sechelt.jpg">
+        <img id="venice" crossorigin="anonymous" src="./img/venice.jpg">
+        <audio id="click-sound" crossorigin="anonymous" src="./audio/click.ogg"></audio>
+
+        <!-- Image link template to be reused. -->
+        <script id="link" type="text/nunjucks">
+          <a-plane class="link" height="1" width="1"
+            material="shader: flat; src: {{ thumb }}"
+            event-set__1="_event: mousedown; scale: 1 1 1"
+            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+            event-set__4="_event: mouseleave; scale: 1 1 1"
+            set-image="on: click; target: #image-360; src: {{ src }}"
+            sound="on: click; src: #click-sound"
+            update-raycaster="#cursor"></a-plane>
+        </script>
+      </a-assets>
+      <!-- 360-degree image. -->
+      <a-sky id="image-360" radius="10" src="./img/city.jpg"></a-sky>
+
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 1.5" position="-2.25 1 -4">
+        <a-entity template="src: #link" data-src="#balloon" data-thumb="#balloon-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#beach" data-thumb="#beach-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#clouds" data-thumb="#clouds-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#earth" data-thumb="#earth-thumb"></a-entity>
+      </a-entity>
+
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 1.5" position="-2.25 -1 -4">
+        <a-entity template="src: #link" data-src="#racing" data-thumb="#racing-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#seaside" data-thumb="#seaside-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#venice" data-thumb="#venice-thumb"></a-entity>
+      </a-entity>
+
+      <!-- Camera + cursor. -->
+      <a-entity camera look-controls>
+        <a-cursor id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          raycaster="objects: .link"></a-cursor>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
